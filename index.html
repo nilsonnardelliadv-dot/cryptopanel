@@ -2,8 +2,8 @@
 <html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoPanel HOLDER PRO v4.5 - Institutional Grade</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CryptoPanel HOLDER PRO v4.6 - Master Edition</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,37 +19,28 @@
                     fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
                     colors: {
                         dark: { 950: '#05070a', 900: '#0b0e14', 800: '#151a23', 700: '#232a3b', 600: '#374151' },
-                        // Zonas de Risco Institucional
-                        zone: {
-                            0: '#22c55e',   // 0-20 (Deep Value)
-                            20: '#84cc16',  // 20-40 (Value)
-                            40: '#facc15',  // 40-60 (Fair)
-                            60: '#f97316',  // 60-80 (Overvalued)
-                            80: '#ef4444',  // 80-100 (Risk)
-                            100: '#7e22ce'  // 100+ (Bubble/Mania)
-                        }
+                        zone: { 0: '#22c55e', 20: '#84cc16', 40: '#facc15', 60: '#f97316', 80: '#ef4444', 100: '#7e22ce' }
                     },
-                    animation: { 
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'fade-in': 'fadeIn 0.3s ease-in-out'
-                    },
-                    keyframes: { fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } } }
+                    animation: { 'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite', 'fade-in': 'fadeIn 0.5s ease-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
                 }
             }
         }
     </script>
 
     <style>
-        body { background-color: #05070a; color: #e5e7eb; overflow-x: hidden; padding-bottom: 200px; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        /* Mobile & Base Styles */
+        body { background-color: #05070a; color: #e5e7eb; overflow-x: hidden; padding-bottom: 120px; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #0b0e14; }
-        ::-webkit-scrollbar-thumb { background: #232a3b; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #232a3b; border-radius: 2px; }
         
         .glass { background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
         
+        /* Tooltip Overlay Mobile-First */
         #metric-tooltip-overlay { 
             position: fixed; bottom: 0; left: 0; right: 0;
-            height: auto; max-height: 60vh;
+            height: auto; max-height: 80vh;
             background-color: #0b0e14;
             border-top: 2px solid #3b82f6;
             box-shadow: 0 -10px 60px rgba(0,0,0,0.95);
@@ -59,16 +50,16 @@
             padding: 1.5rem;
             display: flex; flex-direction: column; gap: 1rem;
         }
-        @media(min-width: 1024px) { #metric-tooltip-overlay { flex-direction: row; max-height: 35vh; } }
+        @media(min-width: 1024px) { #metric-tooltip-overlay { flex-direction: row; max-height: 40vh; } }
 
         .tooltip-hidden { transform: translateY(110%); opacity: 0; pointer-events: none; }
         .tooltip-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-        .tip-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #60a5fa; font-weight: 800; margin-bottom: 6px; border-bottom: 1px solid rgba(96, 165, 250, 0.2); display: inline-block; }
-        .tip-val { font-size: 0.9rem; color: #d1d5db; line-height: 1.6; }
+        .tip-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: #60a5fa; font-weight: 800; margin-bottom: 4px; border-bottom: 1px solid rgba(96, 165, 250, 0.2); display: inline-block; }
+        .tip-val { font-size: 0.85rem; color: #d1d5db; line-height: 1.5; }
         
-        .risk-btn { transition: all 0.3s; opacity: 0.6; }
-        .risk-btn.active { opacity: 1; box-shadow: 0 0 10px currentColor; transform: translateY(-1px); }
+        .risk-btn { transition: all 0.3s; opacity: 0.5; border: 1px solid transparent; }
+        .risk-btn.active { opacity: 1; border-color: currentColor; background: rgba(255,255,255,0.05); }
 
         .zone-indicator-bar { height: 6px; width: 100%; display: flex; border-radius: 3px; overflow: hidden; margin-top: 4px; background: #1f2937; }
         .zone-seg { height: 100%; transition: opacity 0.3s; opacity: 0.3; }
@@ -76,60 +67,76 @@
         
         .card-enter { animation: slideUp 0.5s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .table-scroller { overflow-y: auto; max-height: 350px; scrollbar-width: thin; }
-        .modal-bg { background-color: rgba(0,0,0,0.85); backdrop-filter: blur(4px); }
         
-        /* Estilos de Alerta */
-        .alert-panel { border-color: rgba(139, 92, 246, 0.5) !important; }
-        .alert-header { background-color: rgba(139, 92, 246, 0.1) !important; border-color: rgba(139, 92, 246, 0.3) !important; }
-        .alert-button { background-color: #8b5cf6 !important; }
-        .alert-button:hover { background-color: #7c3aed !important; }
+        .table-scroller { overflow-y: auto; overflow-x: auto; max-height: 350px; scrollbar-width: thin; }
+        .modal-bg { background-color: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
+        
+        /* Ajustes Mobile */
+        @media(max-width: 640px) {
+            .mobile-stack { flex-direction: column; align-items: stretch; }
+            .mobile-hide { display: none; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white">
 
+    <div id="connection-error" class="hidden bg-red-900/90 text-white p-4 text-center text-sm border-b border-red-500 sticky top-0 z-[100]">
+        <p class="font-bold"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Erro de Conexão Detectado</p>
+        <p class="mt-1 opacity-90">Este sistema precisa de um servidor local para acessar as APIs (Binance/CoinGecko).</p>
+        <p class="mt-2 text-xs font-mono bg-black/30 p-1 inline-block rounded">Instale a extensão "Live Server" no VS Code e clique com botão direito -> Open with Live Server.</p>
+    </div>
+
     <header class="glass sticky top-0 z-50 border-b border-gray-800 shadow-lg">
-        <div class="max-w-[1800px] mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-900 rounded-lg flex items-center justify-center shadow-lg border border-blue-500/30 cursor-help" data-tip="sys_logo">
-                    <i class="fa-solid fa-gem text-white"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-xl text-white tracking-tight">CryptoPanel <span class="text-blue-500">HOLDER PRO</span></h1>
-                    <div class="flex items-center gap-2 text-[10px] text-gray-400 font-mono">
-                        <span>v4.5 INSTITUTIONAL</span>
-                        <span class="w-1 h-1 rounded-full bg-gray-600"></span>
-                        <span id="last-update" data-tip="sys_update">Iniciando...</span>
+        <div class="max-w-[1800px] mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-900 rounded-lg flex items-center justify-center shadow-lg border border-blue-500/30 cursor-help" onclick="App.UI.showTip('sys_logo')">
+                        <i class="fa-solid fa-gem text-white text-sm"></i>
                     </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-white tracking-tight leading-tight">HOLDER PRO <span class="text-[10px] bg-blue-900/50 px-1 rounded text-blue-300 border border-blue-800">v4.6</span></h1>
+                        <div class="flex items-center gap-2 text-[9px] text-gray-400 font-mono cursor-help" onclick="App.UI.showTip('sys_update')">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            <span id="last-update">Conectando...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sm:hidden flex flex-col items-end cursor-help" onclick="App.UI.showTip('sys_refresh')">
+                    <span class="text-[8px] text-gray-600 font-bold uppercase">Update</span>
+                    <span id="countdown-mobile" class="text-xs font-mono font-bold text-blue-500">60s</span>
                 </div>
             </div>
             
-            <div class="flex items-center gap-3">
-                <div class="hidden lg:flex bg-dark-800 rounded-lg p-1 border border-gray-700 mr-4">
-                    <button onclick="App.Core.setRiskMode('conservative')" class="risk-btn active px-3 py-1 text-[10px] font-bold rounded text-green-400" id="btn-conservative" data-tip="mode_conservative">Conservador</button>
-                    <button onclick="App.Core.setRiskMode('moderate')" class="risk-btn px-3 py-1 text-[10px] font-bold rounded text-yellow-400" id="btn-moderate" data-tip="mode_moderate">Moderado</button>
-                    <button onclick="App.Core.setRiskMode('aggressive')" class="risk-btn px-3 py-1 text-[10px] font-bold rounded text-red-400" id="btn-aggressive" data-tip="mode_aggressive">Agressivo</button>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end overflow-x-auto pb-1 sm:pb-0">
+                <div class="flex bg-dark-800 rounded-lg p-0.5 border border-gray-700 mr-2 shrink-0">
+                    <button onclick="App.Core.setRiskMode('conservative')" class="risk-btn active px-2 py-1 text-[9px] font-bold rounded text-green-400 uppercase tracking-wider" id="btn-conservative">Defesa</button>
+                    <button onclick="App.Core.setRiskMode('moderate')" class="risk-btn px-2 py-1 text-[9px] font-bold rounded text-yellow-400 uppercase tracking-wider" id="btn-moderate">Mod.</button>
+                    <button onclick="App.Core.setRiskMode('aggressive')" class="risk-btn px-2 py-1 text-[9px] font-bold rounded text-red-400 uppercase tracking-wider" id="btn-aggressive">Ataque</button>
                 </div>
 
-                <div class="hidden md:flex flex-col items-end mr-2 cursor-help" data-tip="sys_refresh">
-                    <span class="text-[9px] text-gray-500 uppercase tracking-widest">Next Refresh</span>
-                    <span id="countdown" class="text-xs font-mono font-bold text-blue-500">600s</span>
+                <div class="hidden sm:flex flex-col items-end mr-2 cursor-help" onclick="App.UI.showTip('sys_refresh')">
+                    <span class="text-[8px] text-gray-500 uppercase tracking-widest">Refresh</span>
+                    <span id="countdown" class="text-xs font-mono font-bold text-blue-500">60s</span>
                 </div>
-                <button onclick="App.Token.addPrompt()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all shadow-lg hover:shadow-blue-500/20" data-tip="act_add_token"><i class="fa-solid fa-plus mr-1"></i> Add</button>
-                <button onclick="App.Alerts.openModal()" class="bg-dark-800 hover:text-yellow-400 border border-gray-700 text-gray-400 px-3 py-2 rounded-lg text-xs font-bold transition-all" data-tip="act_alerts"><i class="fa-solid fa-bell mr-1"></i> Alertas</button>
-                <button onclick="localStorage.clear(); location.reload()" class="p-2 bg-dark-800 hover:text-red-400 border border-gray-700 rounded-lg transition-all" data-tip="act_reset"><i class="fa-solid fa-trash"></i></button>
+                
+                <button onclick="App.Token.addPrompt()" class="bg-blue-600 hover:bg-blue-500 text-white w-8 h-8 flex items-center justify-center rounded-lg shadow-lg hover:shadow-blue-500/20 shrink-0" onclick="App.UI.showTip('act_add_token')"><i class="fa-solid fa-plus"></i></button>
+                <button onclick="App.Alerts.openModal()" class="bg-dark-800 border border-gray-700 text-gray-400 hover:text-yellow-400 w-8 h-8 flex items-center justify-center rounded-lg shrink-0" onclick="App.UI.showTip('act_alerts')"><i class="fa-solid fa-bell"></i></button>
+                <button onclick="if(confirm('Resetar sistema?')) { localStorage.clear(); location.reload(); }" class="bg-dark-800 border border-gray-700 text-gray-400 hover:text-red-400 w-8 h-8 flex items-center justify-center rounded-lg shrink-0"><i class="fa-solid fa-trash"></i></button>
             </div>
         </div>
     </header>
 
-    <div class="bg-dark-900 border-b border-gray-800 py-2">
-        <div class="max-w-[1800px] mx-auto px-4 flex gap-4 overflow-x-auto text-[10px] uppercase font-bold tracking-wider text-gray-500 cursor-help" data-tip="legend_zones">
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-0"></span> Acumulação Forte</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-20"></span> Acumulação</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-40"></span> Fair Value</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-60"></span> Sobrepreço</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-80"></span> Risco Extremo</span>
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-100"></span> Mania (>100%)</span>
+    <div class="bg-dark-900 border-b border-gray-800 py-2 shadow-inner">
+        <div class="max-w-[1800px] mx-auto px-4 overflow-x-auto no-scrollbar" onclick="App.UI.showTip('legend_zones')">
+            <div class="flex gap-4 text-[9px] uppercase font-bold tracking-wider text-gray-500 whitespace-nowrap min-w-max">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-0"></span> Acumulação Forte</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-20"></span> Acumulação</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-40"></span> Preço Justo</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-60"></span> Sobrepreço</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-80"></span> Risco Extremo</span>
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-zone-100"></span> Mania (>100%)</span>
+            </div>
         </div>
     </div>
 
@@ -137,12 +144,12 @@
         
         <section id="alerts-panel" class="glass rounded-xl overflow-hidden border border-purple-500/30 flex flex-col shadow-lg alert-panel mb-4">
             <div class="bg-purple-900/20 p-3 border-b border-purple-500/30 flex justify-between items-center alert-header">
-                <h3 class="text-purple-400 font-bold text-sm flex items-center gap-2" data-tip="panel_alerts_title"><i class="fa-solid fa-bell"></i> Monitor de Alertas Ativos</h3>
-                <button onclick="App.Alerts.openModal()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs alert-button">+ Criar Alerta</button>
+                <h3 class="text-purple-400 font-bold text-sm flex items-center gap-2 cursor-pointer" onclick="App.UI.showTip('panel_alerts_title')"><i class="fa-solid fa-bell"></i> Monitor de Alertas</h3>
+                <button onclick="App.Alerts.openModal()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs alert-button">+ Alerta</button>
             </div>
             <div class="p-3 bg-dark-900/50">
                 <div id="alertsContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-40 overflow-y-auto">
-                    <div class="text-gray-500 text-xs italic p-2">Nenhum alerta configurado.</div>
+                    <div class="text-gray-500 text-xs italic p-2 text-center">Nenhum alerta configurado.</div>
                 </div>
             </div>
         </section>
@@ -151,19 +158,19 @@
             
             <div class="glass rounded-xl overflow-hidden border border-gray-800 flex flex-col shadow-lg lg:col-span-2 h-[450px]">
                 <div class="bg-dark-800/50 p-4 border-b border-gray-700 flex justify-between items-center">
-                    <h3 class="text-white font-bold text-sm flex items-center gap-2" data-tip="panel_ranking"><i class="fa-solid fa-list-ol text-blue-500"></i> Top 10 Oportunidades Holder</h3>
+                    <h3 class="text-white font-bold text-sm flex items-center gap-2 cursor-pointer" onclick="App.UI.showTip('panel_ranking')"><i class="fa-solid fa-list-ol text-blue-500"></i> Top 10 Oportunidades</h3>
                     <span id="current-mode-label" class="text-[10px] text-gray-500 bg-dark-900 px-2 py-1 rounded border border-gray-700 hidden sm:inline-block">Modo: Conservador</span>
                 </div>
                 <div class="flex-1 table-scroller">
-                    <table class="w-full text-left text-xs">
+                    <table class="w-full text-left text-xs min-w-[600px]">
                         <thead class="bg-dark-950 text-gray-500 sticky top-0 z-10 font-bold">
                             <tr>
                                 <th class="p-3 text-center">#</th>
-                                <th class="p-3" data-tip="col_asset">Ativo</th>
-                                <th class="p-3 text-right" data-tip="col_price">Preço</th>
-                                <th class="p-3 text-center" data-tip="col_score">Score</th>
-                                <th class="p-3 text-center" data-tip="quant_asymmetry">Assimetria 2.0</th>
-                                <th class="p-3 text-right" data-tip="col_discount">Potencial (Cap)</th>
+                                <th class="p-3 cursor-pointer" onclick="App.UI.showTip('col_asset')">Ativo</th>
+                                <th class="p-3 text-right cursor-pointer" onclick="App.UI.showTip('col_price')">Preço</th>
+                                <th class="p-3 text-center cursor-pointer" onclick="App.UI.showTip('col_score')">Score</th>
+                                <th class="p-3 text-center cursor-pointer" onclick="App.UI.showTip('quant_asymmetry')">Assimetria</th>
+                                <th class="p-3 text-right cursor-pointer" onclick="App.UI.showTip('quant_potential')">Potencial (Cap)</th>
                             </tr>
                         </thead>
                         <tbody id="opportunity-list" class="divide-y divide-gray-800 text-gray-300">
@@ -175,24 +182,24 @@
 
             <div class="glass rounded-xl overflow-hidden border border-gray-800 flex flex-col shadow-lg h-[450px]">
                 <div class="bg-dark-800/50 p-4 border-b border-gray-700">
-                    <h3 class="text-white font-bold text-sm flex items-center gap-2" data-tip="panel_pulse"><i class="fa-solid fa-bolt text-yellow-500"></i> Pulso 24h</h3>
+                    <h3 class="text-white font-bold text-sm flex items-center gap-2 cursor-pointer" onclick="App.UI.showTip('panel_pulse')"><i class="fa-solid fa-bolt text-yellow-500"></i> Pulso 24h</h3>
                 </div>
                 <div class="flex-1 flex flex-col">
-                    <div class="p-2 bg-dark-900 text-[10px] font-bold text-green-500 uppercase tracking-wider text-center border-b border-gray-800">Maiores Altas</div>
+                    <div class="p-2 bg-dark-900 text-[10px] font-bold text-green-500 uppercase tracking-wider text-center border-b border-gray-800 cursor-pointer" onclick="App.UI.showTip('pulse_gainers')">Maiores Altas</div>
                     <div class="flex-1 overflow-y-auto" id="list-gainers"></div>
                     
-                    <div class="p-2 bg-dark-900 text-[10px] font-bold text-red-500 uppercase tracking-wider text-center border-y border-gray-800">Maiores Baixas</div>
+                    <div class="p-2 bg-dark-900 text-[10px] font-bold text-red-500 uppercase tracking-wider text-center border-y border-gray-800 cursor-pointer" onclick="App.UI.showTip('pulse_losers')">Maiores Baixas</div>
                     <div class="flex-1 overflow-y-auto" id="list-losers"></div>
                 </div>
             </div>
 
             <div class="glass rounded-xl overflow-hidden border border-gray-800 flex flex-col shadow-lg h-[450px]">
                 <div class="bg-dark-800/50 p-4 border-b border-gray-700">
-                    <h3 class="text-white font-bold text-sm flex items-center gap-2" data-tip="panel_stats"><i class="fa-solid fa-chart-pie text-purple-500"></i> Quant Stats</h3>
+                    <h3 class="text-white font-bold text-sm flex items-center gap-2 cursor-pointer" onclick="App.UI.showTip('panel_stats')"><i class="fa-solid fa-chart-pie text-purple-500"></i> Quant Stats</h3>
                 </div>
                 <div class="p-6 flex flex-col gap-6 items-center flex-1 overflow-y-auto">
                     <div class="text-center w-full pb-4 border-b border-gray-800">
-                        <div class="text-4xl font-bold text-white mb-1" id="global-score">--</div>
+                        <div class="text-4xl font-bold text-white mb-1 cursor-pointer" id="global-score" onclick="App.UI.showTip('stat_global_score')">--</div>
                         <div class="text-xs text-gray-500 uppercase tracking-widest">Score Médio Global</div>
                     </div>
                     <div class="w-full space-y-3">
@@ -201,7 +208,7 @@
                         <div class="flex justify-between text-xs text-gray-400"><span>Venda</span><span id="stat-sell" class="text-white font-bold">0</span></div>
                     </div>
                     <div class="w-full pt-4">
-                        <div class="text-[9px] text-gray-500 uppercase text-center mb-1">Tendência Macro (EMA Cross)</div>
+                        <div class="text-[9px] text-gray-500 uppercase text-center mb-1 cursor-pointer" onclick="App.UI.showTip('quant_macro_trend')">Tendência Macro (EMA Cross)</div>
                         <div class="flex justify-center gap-2 text-xs font-bold" id="macro-trend-stats">
                             </div>
                     </div>
@@ -210,7 +217,7 @@
         </div>
 
         <div class="flex items-center justify-between mt-4">
-            <h2 class="text-lg font-bold text-white" data-tip="grid_title">Análise Quantitativa</h2>
+            <h2 class="text-lg font-bold text-white cursor-pointer" onclick="App.UI.showTip('grid_title')">Análise Quantitativa</h2>
             <div class="text-xs text-gray-500 hidden sm:block"><i class="fa-solid fa-info-circle mr-1"></i> Dados: Binance + CoinGecko (Híbrido)</div>
         </div>
         
@@ -255,7 +262,7 @@
         </div>
     </div>
 
-    <div id="metric-tooltip-overlay" class="tooltip-hidden"></div>
+    <div id="metric-tooltip-overlay" class="tooltip-hidden" onclick="App.UI.hideTip()"></div>
 
     <template id="card-template">
         <div class="card glass rounded-xl overflow-hidden hover:border-blue-500/50 transition-all duration-300 card-enter flex flex-col group relative" data-symbol="">
@@ -263,36 +270,32 @@
                 <div class="flex justify-between items-start mb-2">
                     <div class="flex items-center gap-3">
                         <div class="relative">
-                            <div class="score-circle w-12 h-12 rounded-full border-4 flex items-center justify-center text-sm font-bold bg-dark-900 z-10 relative shadow-lg" data-tip="metric_score">--</div>
+                            <div class="score-circle w-12 h-12 rounded-full border-4 flex items-center justify-center text-sm font-bold bg-dark-900 z-10 relative shadow-lg" onclick="event.stopPropagation(); App.UI.showTip('metric_score')">--</div>
                         </div>
                         <div>
-                            <h3 class="font-bold text-white text-xl symbol-ticker leading-none tracking-tight" data-tip="card_ticker">BTC</h3>
-                            <div class="flex gap-1 mt-1">
-                                <div class="dilution-badge text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 cursor-help" data-tip="quant_dilution">FDV: --</div>
-                                <div class="macro-badge text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-gray-800 text-gray-500 cursor-help" data-tip="quant_macro_trend">TREND: --</div>
+                            <h3 class="font-bold text-white text-xl symbol-ticker leading-none tracking-tight" onclick="event.stopPropagation(); App.UI.showTip('card_ticker')">BTC</h3>
+                            <div class="flex gap-1 mt-1 flex-wrap">
+                                <div class="dilution-badge text-[8px] font-bold uppercase px-1.5 py-0.5 rounded bg-gray-800 text-gray-500" onclick="event.stopPropagation(); App.UI.showTip('quant_dilution')">FDV: --</div>
+                                <div class="macro-badge text-[8px] font-bold uppercase px-1.5 py-0.5 rounded bg-gray-800 text-gray-500" onclick="event.stopPropagation(); App.UI.showTip('quant_macro_trend')">TREND: --</div>
                             </div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="text-lg font-mono font-bold text-white price-display" data-tip="metric_price">$0.00</div>
-                        <button onclick="event.stopPropagation(); App.Alerts.openForCard(this)" class="text-gray-500 hover:text-yellow-400 transition-colors mt-1" data-tip="act_quick_alert"><i class="fa-regular fa-bell"></i></button>
+                        <div class="text-lg font-mono font-bold text-white price-display" onclick="event.stopPropagation(); App.UI.showTip('metric_price')">$0.00</div>
+                        <button onclick="event.stopPropagation(); App.Alerts.openForCard(this)" class="text-gray-500 hover:text-yellow-400 transition-colors mt-1 p-2" onclick="event.stopPropagation(); App.UI.showTip('act_quick_alert')"><i class="fa-regular fa-bell"></i></button>
                     </div>
                 </div>
 
                 <div class="flex justify-between text-[10px] font-mono text-gray-400 mb-3 border-b border-gray-800/50 pb-2">
-                    <div class="text-center" data-tip="quant_asymmetry">Assimetria 2.0 <span class="val-asym font-bold text-white">--</span></div>
-                    <div class="text-center" data-tip="metric_var24h">24h <span class="var-24h font-bold">--</span></div>
-                    <div class="text-center" data-tip="quant_vol_regime">Regime <span class="val-regime font-bold">--</span></div>
+                    <div class="text-center" onclick="event.stopPropagation(); App.UI.showTip('quant_asymmetry')">Assimetria <span class="val-asym font-bold text-white">--</span></div>
+                    <div class="text-center" onclick="event.stopPropagation(); App.UI.showTip('metric_var24h')">24h <span class="var-24h font-bold">--</span></div>
+                    <div class="text-center" onclick="event.stopPropagation(); App.UI.showTip('quant_vol_regime')">Regime <span class="val-regime font-bold">--</span></div>
                 </div>
 
-                <div class="mb-4" data-tip="zone_position">
+                <div class="mb-4" onclick="event.stopPropagation(); App.UI.showTip('zone_position')">
                     <div class="zone-indicator-bar bg-dark-900">
-                        <div class="zone-seg w-1/6 bg-zone-0"></div>
-                        <div class="zone-seg w-1/6 bg-zone-20"></div>
-                        <div class="zone-seg w-1/6 bg-zone-40"></div>
-                        <div class="zone-seg w-1/6 bg-zone-60"></div>
-                        <div class="zone-seg w-1/6 bg-zone-80"></div>
-                        <div class="zone-seg w-1/6 bg-zone-100" title="Mania Zone"></div>
+                        <div class="zone-seg w-1/6 bg-zone-0"></div><div class="zone-seg w-1/6 bg-zone-20"></div><div class="zone-seg w-1/6 bg-zone-40"></div>
+                        <div class="zone-seg w-1/6 bg-zone-60"></div><div class="zone-seg w-1/6 bg-zone-80"></div><div class="zone-seg w-1/6 bg-zone-100"></div>
                     </div>
                     <div class="relative w-full h-2 mt-[-8px]">
                         <div class="absolute top-0 w-0.5 h-4 bg-white shadow-[0_0_10px_white] transition-all duration-1000 price-needle" style="left: 50%"></div>
@@ -300,15 +303,15 @@
                 </div>
 
                 <div class="grid grid-cols-3 gap-2 pt-2">
-                    <div class="text-center" data-tip="quant_cheapness">
+                    <div class="text-center" onclick="event.stopPropagation(); App.UI.showTip('quant_cheapness')">
                         <div class="text-[9px] text-gray-500 uppercase">Log-Cheapness</div>
                         <div class="text-xs font-bold text-white val-cheap">--%</div>
                     </div>
-                    <div class="text-center" data-tip="metric_rsi_macro">
+                    <div class="text-center" onclick="event.stopPropagation(); App.UI.showTip('metric_rsi_macro')">
                         <div class="text-[9px] text-gray-500 uppercase">Macro RSI</div>
                         <div class="text-xs font-bold text-white val-rsi">--</div>
                     </div>
-                    <div class="text-center" data-tip="quant_potential">
+                    <div class="text-center" onclick="event.stopPropagation(); App.UI.showTip('quant_potential')">
                         <div class="text-[9px] text-gray-500 uppercase">Alvo 3A (Teto)</div>
                         <div class="text-xs font-bold text-blue-400 val-pot3y">--</div>
                     </div>
@@ -316,43 +319,38 @@
             </div>
 
             <div class="card-details hidden bg-dark-900 border-t border-gray-800 p-5 space-y-5 animate-fade-in">
-                
                 <div class="bg-dark-950 p-3 rounded border border-gray-800/50">
                     <h4 class="text-[10px] text-blue-500 font-bold uppercase mb-2">Análise Quantitativa</h4>
                     <p class="text-xs text-gray-300 leading-relaxed analysis-text mb-3">Calculando...</p>
-                    
                     <div class="grid grid-cols-2 gap-2 text-[10px] font-mono border-t border-gray-800 pt-2">
-                        <div data-tip="fib_buy">
+                        <div onclick="event.stopPropagation(); App.UI.showTip('fib_buy')">
                             <div class="text-gray-500">Zona Ouro (0.618)</div>
                             <div class="text-yellow-400 font-bold val-fib-gold">--</div>
                         </div>
-                        <div class="text-right" data-tip="fib_deep">
+                        <div class="text-right" onclick="event.stopPropagation(); App.UI.showTip('fib_deep')">
                             <div class="text-gray-500">Fundo (0.786)</div>
                             <div class="text-green-400 font-bold val-fib-deep">--</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="h-32 w-full bg-black rounded border border-gray-800 chart-container"></div>
-
+                <div class="h-40 w-full bg-black rounded border border-gray-800 chart-container"></div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <h5 class="text-[9px] text-gray-500 uppercase font-bold mb-2">Histórico</h5>
                         <div class="space-y-1 text-[10px]">
-                            <div class="flex justify-between" data-tip="metric_ath"><span class="text-gray-600">ATH:</span> <span class="text-gray-300 val-ath">--</span></div>
-                            <div class="flex justify-between" data-tip="metric_atl"><span class="text-gray-600">ATL:</span> <span class="text-gray-300 val-atl">--</span></div>
-                            <div class="flex justify-between" data-tip="metric_vola"><span class="text-gray-600">Volatilidade:</span> <span class="text-gray-300 val-vola">--</span></div>
+                            <div class="flex justify-between" onclick="event.stopPropagation(); App.UI.showTip('metric_ath')"><span class="text-gray-600">ATH:</span> <span class="text-gray-300 val-ath">--</span></div>
+                            <div class="flex justify-between" onclick="event.stopPropagation(); App.UI.showTip('metric_atl')"><span class="text-gray-600">ATL:</span> <span class="text-gray-300 val-atl">--</span></div>
+                            <div class="flex justify-between" onclick="event.stopPropagation(); App.UI.showTip('metric_vola')"><span class="text-gray-600">Volatilidade:</span> <span class="text-gray-300 val-vola">--</span></div>
                         </div>
                     </div>
                     <div>
                         <h5 class="text-[9px] text-gray-500 uppercase font-bold mb-2">Fundamentos</h5>
                         <div class="space-y-1 text-[10px]">
-                            <div class="flex justify-between" data-tip="metric_mcap"><span class="text-gray-600">Mcap:</span> <span class="text-gray-300 val-mcap-full">--</span></div>
-                            <div class="flex justify-between" data-tip="metric_fdv"><span class="text-gray-600">FDV:</span> <span class="text-gray-300 val-fdv">--</span></div>
+                            <div class="flex justify-between" onclick="event.stopPropagation(); App.UI.showTip('metric_mcap')"><span class="text-gray-600">Mcap:</span> <span class="text-gray-300 val-mcap-full">--</span></div>
+                            <div class="flex justify-between" onclick="event.stopPropagation(); App.UI.showTip('metric_fdv')"><span class="text-gray-600">FDV:</span> <span class="text-gray-300 val-fdv">--</span></div>
                         </div>
                     </div>
                 </div>
-
                 <button class="w-full py-2 bg-red-900/20 hover:bg-red-900/40 text-red-500 text-xs rounded border border-red-900/30 transition-colors" onclick="App.Token.remove(this)">Remover da Watchlist</button>
             </div>
         </div>
@@ -362,9 +360,8 @@
         const CONFIG = {
             refreshInterval: 600,
             wsThrottle: 5000,
-            historyDays: 1400, // Aumentado para pegar EMA 100W com segurança
+            historyDays: 1400,
             volatilityWindow: 180,
-            
             cgMapping: {
                 'BTCUSDT': 'bitcoin', 'ETHUSDT': 'ethereum', 'SOLUSDT': 'solana', 'BNBUSDT': 'binancecoin',
                 'ADAUSDT': 'cardano', 'XRPUSDT': 'ripple', 'DOTUSDT': 'polkadot', 'DOGEUSDT': 'dogecoin',
@@ -372,7 +369,6 @@
                 'UNIUSDT': 'uniswap', 'LTCUSDT': 'litecoin', 'ATOMUSDT': 'cosmos', 'NEARUSDT': 'near',
                 'APTUSDT': 'aptos', 'ARBUSDT': 'arbitrum', 'OPUSDT': 'optimism', 'RNDRUSDT': 'render-token'
             },
-            
             defaultTokens: [
                 {s: 'BTCUSDT', n: 'Bitcoin'}, 
                 {s: 'ETHUSDT', n: 'Ethereum'}, 
@@ -389,37 +385,62 @@
                 fundamentals: {}, 
                 metrics: {},
                 market: {},
-                riskMode: 'conservative', // Padrão: Conservador para Holder Real
+                riskMode: 'conservative',
                 lastUpdate: 0
             },
 
-            // --- BIBLIOTECA EDUCACIONAL QUANTITATIVA ---
+            // --- BIBLIOTECA EDUCACIONAL (100% COVERAGE) ---
             Library: {
-                'mode_conservative': { t: 'Modo Conservador', d: 'Foca em Valor e Fundamentos (45/30). Ideal para proteção patrimonial.', hint: 'Use para acumular apenas o "Filé Mignon" do mercado.' },
-                'mode_moderate': { t: 'Modo Moderado', d: 'Equilíbrio padrão.', hint: '' },
-                'mode_aggressive': { t: 'Modo Agressivo', d: 'Foca em Ciclo e Técnico.', hint: 'Maior risco.' },
-                
-                'quant_asymmetry': { t: 'Assimetria 2.0 (Ajustada)', d: 'Risco/Retorno penalizado por Volatilidade e Diluição. Fórmula: (Upside/Downside) * (1/Dilution) * (1/Vol).', hint: 'Uma assimetria > 5x ajustada é raríssima e valiosa.' },
-                'quant_macro_trend': { t: 'Tendência Macro (EMA Cross)', d: 'Cruzamento das Médias Semanais 50 e 100.', hint: 'GOLDEN (50>100) = Bull Market Secular. DEATH (50<100) = Acumulação/Bear.' },
-                'metric_rsi_macro': { t: 'RSI Macro (Smoothed)', d: 'Média ponderada do RSI 14W (70%) e RSI 28W (30%). Remove ruído de curto prazo.', hint: 'Sinais abaixo de 40 no Macro RSI são fundos de ciclo confiáveis.' },
-                'quant_cheapness': { t: 'Cheapness (Log-Percentile)', d: 'Percentil histórico calculado em escala logarítmica para ignorar outliers de preço (wicks).', hint: 'Mede o quão barato o ativo está vs sua própria história real.' },
-                'quant_potential': { t: 'Potencial 3A (Capped)', d: 'Projeção logarítmica limitada a 10x o Market Cap atual para realismo.', hint: 'Evita projeções de trilhões de dólares para shitcoins.' },
-                
-                // Mantidos
-                'quant_dilution': { t: 'Risco de Diluição', d: 'FDV / Mcap.', hint: '> 3.0 é perigoso.' },
-                'quant_vol_regime': { t: 'Regime de Volatilidade', d: 'Atual vs Média Histórica.', hint: 'Compressão precede explosão.' },
-                'sys_logo': { t: 'CryptoPanel Quant', d: 'v4.5 Institutional Grade.', hint: '' },
-                'sys_update': { t: 'Sync', d: 'Binance + CoinGecko.', hint: '' },
-                'act_add_token': { t: 'Add', d: '', hint: '' }, 'act_alerts': { t: 'Alertas', d: '', hint: '' }, 'act_reset': { t: 'Reset', d: '', hint: '' },
-                'metric_score': { t: 'Score Holder 2.0', d: 'Nota 0-100 ponderada.', hint: '' }, 'card_ticker': { t: 'Ativo', d: '', hint: '' }, 'metric_price': { t: 'Preço', d: '', hint: '' }, 'act_quick_alert': { t: 'Alerta', d: '', hint: '' },
-                'metric_var24h': { t: '24h', d: '', hint: '' }, 'zone_position': { t: 'Posição Histórica', d: '', hint: '' },
-                'fib_buy': { t: 'Fib 0.618', d: '', hint: '' }, 'fib_deep': { t: 'Fib 0.786', d: '', hint: '' },
-                'metric_ath': { t: 'ATH', d: '', hint: '' }, 'metric_atl': { t: 'ATL', d: '', hint: '' }, 'metric_vola': { t: 'Volatilidade', d: '', hint: '' }, 'metric_mcap': { t: 'Mcap', d: '', hint: '' }, 'metric_fdv': { t: 'FDV', d: '', hint: '' }
+                'mode_conservative': { t: 'Modo Conservador (Defesa)', d: 'Prioriza Valuation (preço barato) e Fundamentos sólidos. O Score só sobe se o ativo estiver em "promoção" real.', hint: 'Ideal para acumulação em Bear Markets ou proteção de patrimônio.' },
+                'mode_moderate': { t: 'Modo Moderado (Padrão)', d: 'Equilíbrio entre Valor, Ciclo e Momentum. Reflete a estratégia clássica de Swing Trade de longo prazo.', hint: 'Use como base para a maioria das decisões.' },
+                'mode_aggressive': { t: 'Modo Agressivo (Ataque)', d: 'Prioriza Momentum e Tendência. O Score sobe mais rápido quando o preço começa a andar.', hint: 'Use no início de Bull Runs confirmadas.' },
+                'quant_asymmetry': { t: 'Assimetria 2.0 (Ajustada)', d: 'Cálculo de Risco/Retorno profissional: (Upside até ATH / Downside até ATL), penalizado pela volatilidade e inflação do token.', hint: 'Uma assimetria acima de 5x ajustada é o "Santo Graal" do Holder.' },
+                'quant_macro_trend': { t: 'Tendência Macro (EMA Cross)', d: 'Cruzamento das Médias Móveis Semanais de 50 e 100 períodos. Define se o mercado está em Alta Secular ou Baixa.', hint: 'GOLDEN (50>100) = Tendência de alta de longo prazo. DEATH (50<100) = Acumulação ou Queda.' },
+                'metric_rsi_macro': { t: 'RSI Macro (Suavizado)', d: 'Combinação ponderada do RSI 14 Semanal (70%) e RSI 28 Semanal (30%). Remove ruídos de semanas voláteis.', hint: 'Muito mais confiável que o RSI padrão. Abaixo de 35 é zona de compra histórica.' },
+                'quant_cheapness': { t: 'Índice de "Barateza" (Log)', d: 'Percentil histórico calculado em escala logarítmica. Mede o quão barato o ativo está comparado à sua própria história, ignorando picos irreais.', hint: 'Acima de 80% indica que o preço está nas mínimas históricas reais.' },
+                'quant_potential': { t: 'Potencial 3 Anos (Teto)', d: 'Projeção matemática de crescimento exponencial baseada na volatilidade histórica, mas limitada a 10x o Market Cap atual para manter o realismo.', hint: 'Evita projeções fantasiosas de "trilhões de dólares" para moedas pequenas.' },
+                'quant_dilution': { t: 'Risco de Diluição (Inflation)', d: 'Relação entre Valor Diluído (FDV) e Valor de Mercado (Mcap). Indica quantos tokens ainda serão despejados no mercado.', hint: 'Valor > 3.0 é perigoso (muita inflação por vir). Valor < 1.2 é excelente (quase tudo em circulação).' },
+                'quant_vol_regime': { t: 'Regime de Volatilidade', d: 'Compara a volatilidade atual com a média histórica. "Compressão" significa que o preço está calmo demais e deve explodir em breve.', hint: 'Compre na Compressão (calmaria), Venda na Expansão (caos).' },
+                'sys_logo': { t: 'CryptoPanel Holder Master', d: 'Versão v4.6 Final. Sistema de inteligência quantitativa para investidores de longo prazo.', hint: 'Foque nos dados, ignore o ruído.' },
+                'sys_update': { t: 'Sincronização de Dados', d: 'Status da conexão com Binance (Preços) e CoinGecko (Fundamentos).', hint: 'Se parar de piscar, verifique sua conexão.' },
+                'act_add_token': { t: 'Adicionar Ativo', d: 'Insira o par da Binance (ex: AVAX) para iniciar o monitoramento.', hint: 'O sistema busca automaticamente o histórico.' },
+                'act_alerts': { t: 'Gerenciar Alertas', d: 'Abra o painel para criar notificações de preço customizadas.', hint: 'Use alertas para não precisar ficar olhando o gráfico todo dia.' },
+                'act_reset': { t: 'Resetar Sistema', d: 'Limpa todos os dados locais e restaura a lista padrão.', hint: 'Use se notar algum bug de dados.' },
+                'metric_score': { t: 'Score Holder 2.0', d: 'Nota final de 0 a 100, ponderada pelo seu perfil de risco (Defesa/Ataque).', hint: 'Verde (>70) = Compra. Vermelho (<40) = Venda.' },
+                'card_ticker': { t: 'Ativo Monitorado', d: 'Par de negociação principal em USDT.', hint: 'Clique no card para ver detalhes profundos.' },
+                'metric_price': { t: 'Preço Atual', d: 'Última negociação registrada na Binance.', hint: 'Atualiza via WebSocket em tempo real.' },
+                'act_quick_alert': { t: 'Alerta Rápido', d: 'Cria um alerta para este ativo instantaneamente.', hint: '' },
+                'metric_var24h': { t: 'Variação 24h', d: 'Mudança de preço no último dia.', hint: 'Serve para medir o pulso de curto prazo.' },
+                'zone_position': { t: 'Termômetro de Ciclo', d: 'Onde estamos no ciclo de 4 anos? Esquerda (Verde) = Fundo. Direita (Vermelho/Roxo) = Topo.', hint: 'Nunca compre na zona roxa (Mania).' },
+                'fib_buy': { t: 'Fibonacci 0.618', d: 'A "Proporção Áurea". Nível de suporte mais forte em tendências de alta.', hint: 'Ótimo ponto para ordens limitadas de compra.' },
+                'fib_deep': { t: 'Fibonacci 0.786', d: 'Nível de "Última Chance". Se perder aqui, a tendência inverte.', hint: 'Compra agressiva com stop curto.' },
+                'metric_ath': { t: 'Topo Histórico (ATH)', d: 'O maior preço já atingido.', hint: 'Alvo final de um Bull Market.' },
+                'metric_atl': { t: 'Fundo Histórico (ATL)', d: 'O menor preço já atingido.', hint: 'Suporte final catastrófico.' },
+                'metric_vola': { t: 'Volatilidade (180d)', d: 'Risco medido pela oscilação média em 6 meses.', hint: 'Value Investing prefere ativos estáveis ou em compressão.' },
+                'metric_mcap': { t: 'Market Cap', d: 'Valor total do projeto (Preço x Circulante).', hint: 'Projetos gigantes movem-se mais devagar.' },
+                'metric_fdv': { t: 'Fully Diluted Valuation', d: 'Valor do projeto se todos os tokens existissem hoje.', hint: 'Importante para projetos novos com alta inflação.' },
+                'sys_refresh': { t: 'Próxima Atualização', d: 'Tempo até recarregar dados on-chain pesados.', hint: 'O preço atualiza em tempo real, fundamentos a cada 10min.' },
+                'legend_zones': { t: 'Legenda de Zonas', d: 'Guia de cores para o Termômetro de Ciclo. Vai de Compra Forte (Verde) até Mania/Bolha (Roxo).', hint: '' },
+                'panel_alerts_title': { t: 'Painel de Alertas', d: 'Lista seus alertas ativos e distância para o alvo.', hint: '' },
+                'panel_ranking': { t: 'Ranking Quant', d: 'Lista ordenada pela qualidade matemática da oportunidade.', hint: 'Foque no Top 3.' },
+                'col_asset': { t: 'Ativo', d: 'Símbolo.', hint: '' }, 'col_price': { t: 'Preço', d: 'Valor atual.', hint: '' }, 'col_score': { t: 'Score', d: 'Nota Quant.', hint: '' },
+                'col_discount': { t: 'Potencial', d: 'Projeção 3 anos.', hint: '' },
+                'panel_pulse': { t: 'Pulso de Mercado', d: 'Quem está se movendo hoje.', hint: '' },
+                'pulse_gainers': { t: 'Altas', d: '', hint: '' }, 'pulse_losers': { t: 'Baixas', d: '', hint: '' },
+                'panel_stats': { t: 'Estatísticas', d: 'Resumo da carteira.', hint: '' },
+                'stat_global_score': { t: 'Score Global', d: 'Média do mercado.', hint: '<30 = Oportunidade Geracional.' },
+                'grid_title': { t: 'Grid de Ativos', d: 'Visão detalhada.', hint: '' }
             },
 
+            // --- CORE & LOGIC ---
             Core: {
+                checkEnv: () => {
+                    if (window.location.protocol === 'file:') {
+                        document.getElementById('connection-error').classList.remove('hidden');
+                    }
+                },
                 init: async () => {
-                    App.UI.setupTooltips();
+                    App.Core.checkEnv();
                     App.UI.renderGrid();
                     App.Alerts.renderList();
                     await App.Core.refreshAll();
@@ -427,12 +448,13 @@
                     setInterval(App.Core.refreshAll, CONFIG.refreshInterval * 1000);
                     setInterval(() => {
                         let el = document.getElementById('countdown');
+                        let elMob = document.getElementById('countdown-mobile');
                         let next = App.data.lastUpdate + (CONFIG.refreshInterval * 1000);
                         let remain = Math.max(0, Math.ceil((next - Date.now()) / 1000));
-                        el.innerText = remain + 's';
+                        if(el) el.innerText = remain + 's';
+                        if(elMob) elMob.innerText = remain + 's';
                     }, 1000);
                 },
-
                 setRiskMode: (mode) => {
                     App.data.riskMode = mode;
                     document.querySelectorAll('.risk-btn').forEach(b => b.classList.remove('active', 'border-white'));
@@ -441,7 +463,6 @@
                     for(let t of App.data.tokens) App.Analysis.calc(t.s);
                     App.UI.updateAll();
                 },
-
                 refreshAll: async () => {
                     const statusEl = document.getElementById('last-update');
                     statusEl.innerText = "🔄 Calc...";
@@ -457,49 +478,51 @@
                         App.Alerts.check();
                     } catch (error) { console.error(error); statusEl.innerText = "Erro"; statusEl.className = "text-red-500"; }
                 },
-
                 fetchHistory: async (symbol) => {
-                    // Busca dados suficientes para EMA 100W
-                    let r1 = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=${CONFIG.historyDays}`);
-                    let d1 = await r1.json();
-                    let r2 = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1w&limit=200`);
-                    let d2 = await r2.json();
-                    App.data.history[symbol] = { d1: d1.map(x=>({t:x[0],c:+x[4]})), w1: d2.map(x=>({t:x[0],c:+x[4]})) };
+                    try {
+                        let r1 = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=${CONFIG.historyDays}`);
+                        let d1 = await r1.json();
+                        let r2 = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1w&limit=200`);
+                        let d2 = await r2.json();
+                        App.data.history[symbol] = { d1: d1.map(x=>({t:x[0],c:+x[4]})), w1: d2.map(x=>({t:x[0],c:+x[4]})) };
+                    } catch(e) { console.warn("Binance API error", e); }
                 },
-
                 fetchFundamentals: async () => {
-                    const ids = App.data.tokens.map(t => CONFIG.cgMapping[t.s] || '').filter(x => x).join(',');
-                    if(!ids) return;
-                    const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=false`);
-                    const data = await res.json();
-                    data.forEach(coin => {
-                        const binanceSymbol = Object.keys(CONFIG.cgMapping).find(key => CONFIG.cgMapping[key] === coin.id);
-                        if(binanceSymbol) {
-                            App.data.fundamentals[binanceSymbol] = {
-                                mcap: coin.market_cap, fdv: coin.fully_diluted_valuation || coin.market_cap,
-                                ath: coin.ath, atl: coin.atl, supply: coin.circulating_supply
-                            };
-                        }
-                    });
-                },
-
-                startWS: () => {
-                    const ws = new WebSocket("wss://stream.binance.com:9443/ws/!ticker@arr");
-                    let lastDraw = 0;
-                    ws.onmessage = (e) => {
-                        const data = JSON.parse(e.data);
-                        let needsUpdate = false;
-                        data.forEach(t => {
-                            if(App.data.tokens.find(k => k.s === t.s)) {
-                                App.data.market[t.s] = { p: +t.c, P: +t.P, q: +t.q };
-                                needsUpdate = true;
+                    try {
+                        const ids = App.data.tokens.map(t => CONFIG.cgMapping[t.s] || '').filter(x => x).join(',');
+                        if(!ids) return;
+                        const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=false`);
+                        const data = await res.json();
+                        data.forEach(coin => {
+                            const binanceSymbol = Object.keys(CONFIG.cgMapping).find(key => CONFIG.cgMapping[key] === coin.id);
+                            if(binanceSymbol) {
+                                App.data.fundamentals[binanceSymbol] = {
+                                    mcap: coin.market_cap, fdv: coin.fully_diluted_valuation || coin.market_cap,
+                                    ath: coin.ath, atl: coin.atl, supply: coin.circulating_supply
+                                };
                             }
                         });
-                        if(needsUpdate && (Date.now() - lastDraw > CONFIG.wsThrottle)) {
-                            App.UI.updatePricesOnly();
-                            lastDraw = Date.now();
-                        }
-                    };
+                    } catch(e) { console.warn("CoinGecko API Limit/Error", e); }
+                },
+                startWS: () => {
+                    try {
+                        const ws = new WebSocket("wss://stream.binance.com:9443/ws/!ticker@arr");
+                        let lastDraw = 0;
+                        ws.onmessage = (e) => {
+                            const data = JSON.parse(e.data);
+                            let needsUpdate = false;
+                            data.forEach(t => {
+                                if(App.data.tokens.find(k => k.s === t.s)) {
+                                    App.data.market[t.s] = { p: +t.c, P: +t.P, q: +t.q };
+                                    needsUpdate = true;
+                                }
+                            });
+                            if(needsUpdate && (Date.now() - lastDraw > CONFIG.wsThrottle)) {
+                                App.UI.updatePricesOnly();
+                                lastDraw = Date.now();
+                            }
+                        };
+                    } catch(e) { console.error("WS Error", e); }
                 }
             },
 
@@ -508,10 +531,8 @@
                 ema: (arr, p) => {
                     if (arr.length < p) return null;
                     const k = 2 / (p + 1);
-                    let ema = arr.slice(0, p).reduce((a, b) => a + b, 0) / p; // SMA inicial
-                    for (let i = p; i < arr.length; i++) {
-                        ema = (arr[i] - ema) * k + ema;
-                    }
+                    let ema = arr.slice(0, p).reduce((a, b) => a + b, 0) / p;
+                    for (let i = p; i < arr.length; i++) { ema = (arr[i] - ema) * k + ema; }
                     return ema;
                 },
                 rsiWilder: (arr, p=14) => {
@@ -546,38 +567,30 @@
                     const closesD = h.d1.map(x => x.c);
                     const closesW = h.w1.map(x => x.c);
                     const currentPrice = mkt.p;
-
                     const ath = fund ? fund.ath : Math.max(...closesD);
                     const atl = fund ? fund.atl : Math.min(...closesD);
 
-                    // 1. Valuation Logarítmico (Robust Cheapness)
-                    // Usamos Log para que picos de preço não distorçam o ranking
+                    // 1. Valuation Logarítmico
                     const logCloses = closesD.map(p => Math.log(p));
                     const currentLog = Math.log(currentPrice);
                     const sortedLogs = [...logCloses].sort((a,b) => a-b);
                     let rank = sortedLogs.findIndex(x => x >= currentLog);
                     if (rank === -1) rank = 0; 
                     const percentile = (rank / sortedLogs.length) * 100;
-                    
                     const cheapness = 100 - percentile;
                     const scoreVal = Math.max(0, cheapness);
 
-                    // 2. Assimetria 2.0 (Ajustada ao Risco)
+                    // 2. Assimetria 2.0
                     const upside = Math.max(0, ath - currentPrice);
                     const downside = Math.max(1, currentPrice - atl);
                     const rawAsymmetry = downside > 0 ? (upside / downside) : 50;
-                    
-                    // Fatores de penalidade
                     const volAvg = App.Indicators.volatilityLog(closesD, 180);
                     const dilutionRisk = (fund && fund.mcap > 0) ? fund.fdv / fund.mcap : 1.0;
-                    
-                    // Assimetria Real = Bruta / (Risco Diluição * Fator Volatilidade)
-                    // Volatilidade alta penaliza a assimetria
                     const volFactor = Math.max(1, volAvg / 50); 
                     const dilutionFactor = Math.max(1, dilutionRisk);
                     const asymmetry = rawAsymmetry / (dilutionFactor * volFactor);
 
-                    // 3. RSI Macro Holder (Smoothed)
+                    // 3. RSI Macro
                     const rsi14 = App.Indicators.rsiWilder(closesW, 14);
                     const rsi28 = App.Indicators.rsiWilder(closesW, 28);
                     const rsiMacro = (rsi14 * 0.7) + (rsi28 * 0.3);
@@ -591,51 +604,35 @@
                         if(((ath-currentPrice)/ath) > 0.9) scoreFund -= 10;
                     }
 
-                    // 5. Técnico Macro (EMA Cross)
+                    // 5. Técnico Macro
                     const sma200 = App.Indicators.sma(closesD, 200);
                     const ema50w = App.Indicators.ema(closesW, 50);
                     const ema100w = App.Indicators.ema(closesW, 100);
-                    
                     let macroTrend = "Neutro";
                     let scoreTech = 50;
-                    
                     if (ema50w && ema100w) {
-                        if (ema50w > ema100w) {
-                            macroTrend = "GOLDEN"; // Bull Market Secular
-                            scoreTech += 20;
-                        } else {
-                            macroTrend = "DEATH"; // Bear Market / Accumulation
-                            // Para Holder, Death Cross pode ser bom se o preço estiver muito abaixo (acumulação)
-                            if (percentile < 20) scoreTech += 30; // Deep Value Accumulation
-                            else scoreTech -= 10; // Bear Trend normal
-                        }
+                        if (ema50w > ema100w) { macroTrend = "GOLDEN"; scoreTech += 20; } 
+                        else { macroTrend = "DEATH"; if (percentile < 20) scoreTech += 30; else scoreTech -= 10; }
                     }
 
-                    // PESOS DINÂMICOS (Institucional v4.5)
-                    // Foco: Valuation e Fundamentos
-                    let wVal=0.45, wFun=0.30, wCyc=0.15, wTec=0.10; // Conservador padrão
-                    
+                    // PESOS DINÂMICOS
+                    let wVal=0.45, wFun=0.30, wCyc=0.15, wTec=0.10;
                     if(App.data.riskMode === 'moderate') { wVal=0.35; wFun=0.25; wCyc=0.25; wTec=0.15; }
                     if(App.data.riskMode === 'aggressive') { wVal=0.20; wFun=0.10; wCyc=0.40; wTec=0.30; }
 
                     const finalScore = (scoreVal * wVal) + (scoreCycle * wCyc) + (scoreFund * wFun) + (scoreTech * wTec);
                     
-                    // Alvos Fibonacci 
                     const range = ath - atl;
                     const buyZone1 = ath - (range * 0.618);
                     const buyZone2 = ath - (range * 0.786);
 
-                    // 6. Potencial Logarítmico com Teto (Capped)
-                    // Crescimento base + bonus volatilidade
+                    // Potencial Log Capped
                     const volNorm = volAvg / 100; 
                     const growthRate = 0.2 + (volNorm * 0.5); 
                     const scoreFactor = finalScore / 50; 
                     let potential = currentPrice * Math.exp(growthRate * 3 * scoreFactor);
-                    
-                    // Teto de Market Cap (Institucional)
                     if (fund && fund.mcap > 0) {
-                        const maxMultiplier = 10; // Cap de 10x no Mcap atual
-                        const maxPrice = currentPrice * maxMultiplier;
+                        const maxPrice = currentPrice * 10;
                         potential = Math.min(potential, maxPrice);
                     }
 
@@ -644,86 +641,40 @@
                     App.data.metrics[symbol] = {
                         score: Math.round(finalScore),
                         percentile, cheapness, asymmetry, dilutionRisk, volRegime,
-                        rsiW: rsiMacro, // Exibimos o Macro agora
-                        sma200, ema50w, ema100w, macroTrend,
-                        ath, atl,
-                        discountAth: ((ath - currentPrice)/ath)*100,
-                        volatility: volAvg,
-                        potential3y: potential,
+                        rsiW: rsiMacro, sma200, ema50w, ema100w, macroTrend,
+                        ath, atl, discountAth: ((ath - currentPrice)/ath)*100,
+                        volatility: volAvg, potential3y: potential,
                         mcap: fund ? fund.mcap : 0, fdv: fund ? fund.fdv : 0,
                         fibGold: buyZone1, fibDeep: buyZone2
                     };
                 }
             },
 
-            Alerts: {
-                saveToStorage: () => localStorage.setItem("holder_alerts", JSON.stringify(App.data.alerts)),
-                openModal: (btn = null) => {
-                    const modal = document.getElementById('alertsModal');
-                    const symbolSelect = document.getElementById('alert-symbol');
-                    symbolSelect.innerHTML = '<option value="">Selecione um token</option>';
-                    App.data.tokens.forEach(t => {
-                        const option = document.createElement('option');
-                        option.value = t.s; option.textContent = t.n; symbolSelect.appendChild(option);
-                    });
-                    if (btn) { const card = btn.closest('.card'); if (card) symbolSelect.value = card.dataset.symbol; }
-                    document.getElementById('alert-price').value = '';
-                    document.getElementById('alert-notes').value = '';
-                    modal.classList.remove('hidden');
-                },
-                closeModal: () => document.getElementById('alertsModal').classList.add('hidden'),
-                openForCard: (btn) => App.Alerts.openModal(btn),
-                createAlert: () => {
-                    const symbol = document.getElementById('alert-symbol').value;
-                    const type = document.getElementById('alert-type').value;
-                    const price = parseFloat(document.getElementById('alert-price').value);
-                    const notes = document.getElementById('alert-notes').value;
-                    if (!symbol || !price) return alert('Preencha os dados!');
-                    const mkt = App.data.market[symbol];
-                    App.data.alerts.push({
-                        id: Date.now(), symbol, type, targetPrice: price, initialPrice: mkt ? mkt.p : 0, notes, triggered: false
-                    });
-                    App.Alerts.saveToStorage(); App.Alerts.renderList(); App.Alerts.closeModal();
-                },
-                remove: (id) => {
-                    App.data.alerts = App.data.alerts.filter(a => a.id !== id);
-                    App.Alerts.saveToStorage(); App.Alerts.renderList();
-                },
-                check: () => {
-                    let changed = false;
-                    App.data.alerts.forEach(a => {
-                        if(a.triggered) return;
-                        const mkt = App.data.market[a.symbol];
-                        if(!mkt) return;
-                        let hit = (a.type === 'buy' && mkt.p <= a.targetPrice) || (a.type === 'sell' && mkt.p >= a.targetPrice);
-                        if(hit) { a.triggered = true; changed = true; alert(`ALERTA: ${a.symbol} atingiu $${a.targetPrice}`); }
-                    });
-                    if(changed) { App.Alerts.saveToStorage(); App.Alerts.renderList(); }
-                },
-                renderList: () => {
-                    const div = document.getElementById('alertsContent');
-                    if(!App.data.alerts.length) { div.innerHTML = '<div class="text-gray-500 text-xs italic p-2">Nenhum alerta configurado.</div>'; return; }
-                    div.innerHTML = App.data.alerts.map(a => {
-                        const mkt = App.data.market[a.symbol];
-                        const curr = mkt ? mkt.p : a.initialPrice;
-                        const dist = ((a.targetPrice - curr)/curr)*100;
-                        return `
-                        <div class="bg-dark-800 border ${a.triggered ? 'border-green-500' : 'border-gray-700'} p-2 rounded relative group">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="font-bold text-xs ${a.type==='buy'?'text-green-400':'text-red-400'}">${a.symbol.replace('USDT','')} ${a.type==='buy'?'C':'V'}</span>
-                                <button onclick="App.Alerts.remove(${a.id})" class="text-gray-600 hover:text-red-500"><i class="fa-solid fa-times"></i></button>
-                            </div>
-                            <div class="flex justify-between text-[10px] font-mono">
-                                <span class="text-gray-400">Alvo: $${a.targetPrice}</span>
-                                <span class="${a.triggered ? 'text-green-500 font-bold' : 'text-yellow-500'}">${a.triggered ? 'ATINGIDO' : dist.toFixed(1)+'%'}</span>
+            // UI ENGINE (RESPONSIVE & TOOLTIPS)
+            UI: {
+                showTip: (key) => {
+                    const info = App.Library[key];
+                    if(!info) return;
+                    const ov = document.getElementById('metric-tooltip-overlay');
+                    ov.innerHTML = `
+                        <div class="flex-1 min-w-[280px] lg:border-r border-gray-800 lg:pr-6">
+                            <h4 class="text-blue-500 font-bold text-lg mb-2">${info.t}</h4>
+                            <p class="text-sm text-gray-300 leading-relaxed">${info.d}</p>
+                        </div>
+                        <div class="flex-1 min-w-[250px] lg:pl-6 pt-4 lg:pt-0">
+                            <div class="bg-blue-900/20 border border-blue-500/30 p-3 rounded-lg">
+                                <div class="tip-label text-blue-400">Dica Prática</div>
+                                <p class="text-xs text-blue-100 italic">"${info.hint}"</p>
                             </div>
                         </div>`;
-                    }).join('');
+                    ov.classList.remove('tooltip-hidden'); ov.classList.add('tooltip-visible');
                 },
-                renderInCard: (symbol) => { /* Mantido no template */ }
-            },
-
-            UI: {
+                hideTip: () => {
+                    const ov = document.getElementById('metric-tooltip-overlay');
+                    ov.classList.add('tooltip-hidden'); ov.classList.remove('tooltip-visible');
+                },
+                setupTooltips: () => { /* Now uses click handler on elements directly */ },
+                
                 renderGrid: () => {
                     const grid = document.getElementById('cards-grid');
                     grid.innerHTML = '';
@@ -761,7 +712,6 @@
 
                         if(!m) return;
 
-                        // Score
                         const scoreEl = card.querySelector('.score-circle');
                         scoreEl.innerText = m.score;
                         scoreEl.className = `score-circle w-12 h-12 rounded-full border-4 flex items-center justify-center text-sm font-bold z-10 relative shadow-lg transition-colors duration-500
@@ -769,35 +719,26 @@
                               m.score >= 40 ? 'bg-zone-40 text-black border-yellow-900' : 
                               'bg-zone-80 text-white border-red-900'}`;
 
-                        // Barra Zona (Com Mania Zone > 100%)
                         const needle = card.querySelector('.price-needle');
                         const pVis = Math.min(100, Math.max(2, m.percentile));
                         needle.style.left = `${pVis}%`;
                         needle.style.backgroundColor = m.percentile > 80 ? '#ef4444' : '#22c55e';
                         
-                        // Badges
+                        card.querySelector('.dilution-badge').innerText = `FDV: ${m.dilutionRisk.toFixed(1)}x`;
                         card.querySelector('.macro-badge').innerText = m.macroTrend || 'WAIT';
                         card.querySelector('.macro-badge').className = `macro-badge text-[9px] font-bold uppercase px-1.5 py-0.5 rounded cursor-help ${m.macroTrend === 'GOLDEN' ? 'bg-yellow-900 text-yellow-400' : 'bg-gray-800 text-gray-500'}`;
 
-                        // Métricas Quant
                         card.querySelector('.val-cheap').innerText = m.cheapness.toFixed(0) + '%';
                         card.querySelector('.val-asym').innerText = m.asymmetry.toFixed(1) + 'x';
-                        card.querySelector('.val-asym').className = `val-asym font-bold ${m.asymmetry > 3 ? 'text-green-400' : 'text-white'}`;
-                        
                         card.querySelector('.val-regime').innerText = m.volRegime;
                         card.querySelector('.val-regime').className = `val-regime font-bold ${m.volRegime === 'Compressão' ? 'text-green-400' : 'text-red-400'}`;
-
-                        const dilutionBadge = card.querySelector('.dilution-badge');
-                        dilutionBadge.innerText = `FDV: ${m.dilutionRisk.toFixed(1)}x`;
-                        dilutionBadge.className = `dilution-badge text-[9px] font-bold uppercase px-1.5 py-0.5 rounded mt-1 inline-block cursor-help ${m.dilutionRisk < 1.5 ? 'bg-green-900 text-green-400' : m.dilutionRisk > 3 ? 'bg-red-900 text-red-400' : 'bg-gray-800 text-gray-500'}`;
 
                         const formatUSD = (v) => v >= 1e9 ? `$${(v/1e9).toFixed(1)}B` : v >= 1e6 ? `$${(v/1e6).toFixed(0)}M` : '-';
                         card.querySelector('.val-mcap-mini').innerText = m.mcap ? formatUSD(m.mcap) : '-';
                         card.querySelector('.val-pot3y').innerText = m.potential3y ? '$'+(m.potential3y<1?m.potential3y.toFixed(4):m.potential3y.toLocaleString(undefined,{maximumFractionDigits:0})) : '-';
 
-                        const rsiEl = card.querySelector('.val-rsi');
-                        rsiEl.innerText = m.rsiW.toFixed(0);
-                        rsiEl.className = `text-xs font-bold val-rsi ${m.rsiW < 30 ? 'text-green-400 animate-pulse' : m.rsiW > 70 ? 'text-red-400' : 'text-white'}`;
+                        card.querySelector('.val-rsi').innerText = m.rsiW.toFixed(0);
+                        card.querySelector('.val-rsi').className = `text-xs font-bold val-rsi ${m.rsiW < 30 ? 'text-green-400 animate-pulse' : m.rsiW > 70 ? 'text-red-400' : 'text-white'}`;
 
                         if(!card.querySelector('.card-details').classList.contains('hidden')) {
                             App.UI.fillDetails(card, t.s, m, p);
@@ -807,11 +748,9 @@
 
                 fillDetails: (card, s, m, p) => {
                     const formatUSD = (v) => v >= 1e9 ? `$${(v/1e9).toFixed(2)}B` : `$${(v/1e6).toFixed(2)}M`;
-                    
                     let action = m.score > 70 ? "COMPRA" : m.score < 40 ? "VENDA" : "AGUARDE";
                     card.querySelector('.analysis-text').innerText = 
                         `Score ${m.score} (${App.data.riskMode}). Tendência Macro: ${m.macroTrend}. Assimetria: ${m.asymmetry.toFixed(1)}x. Regime: ${m.volRegime}. Ação sugerida: ${action}.`;
-
                     card.querySelector('.val-fib-gold').innerText = `$${m.fibGold.toLocaleString(undefined, {maximumFractionDigits:2})}`;
                     card.querySelector('.val-fib-deep').innerText = `$${m.fibDeep.toLocaleString(undefined, {maximumFractionDigits:2})}`;
                     card.querySelector('.val-ath').innerText = '$'+m.ath.toLocaleString();
@@ -819,7 +758,6 @@
                     card.querySelector('.val-vola').innerText = m.volatility.toFixed(1) + '%';
                     card.querySelector('.val-mcap-full').innerText = m.mcap ? formatUSD(m.mcap) : 'N/A';
                     card.querySelector('.val-fdv').innerText = m.fdv ? formatUSD(m.fdv) : 'N/A';
-
                     App.UI.renderChart(card, s);
                 },
 
@@ -862,7 +800,7 @@
                         ...t, 
                         m: App.data.metrics[t.s] || {score:0, discountAth:0, percentile:50, potential3y: 0, asymmetry: 0},
                         p: App.data.market[t.s]?.p || 0
-                    })).sort((a,b) => b.m.score - a.m.score).slice(0, 10); // TOP 10
+                    })).sort((a,b) => b.m.score - a.m.score).slice(0, 10);
 
                     const tbody = document.getElementById('opportunity-list');
                     tbody.innerHTML = list.map((item, i) => `
@@ -906,29 +844,53 @@
                         `<span class="text-yellow-400">GOLDEN: ${golden}</span> <span class="text-gray-500">BEAR: ${death}</span>`;
                 },
 
-                setupTooltips: () => {
-                    const ov = document.getElementById('metric-tooltip-overlay');
-                    document.body.addEventListener('mouseover', e => {
-                        const t = e.target.closest('[data-tip]');
-                        if(t) {
-                            const info = App.Library[t.dataset.tip];
-                            if(info) {
-                                ov.innerHTML = `
-                                    <div class="flex-1 min-w-[280px] lg:border-r border-gray-800 lg:pr-6">
-                                        <h4 class="text-blue-500 font-bold text-lg mb-2">${info.t}</h4>
-                                        <p class="text-sm text-gray-300">${info.d}</p>
-                                    </div>
-                                    <div class="flex-1 min-w-[250px] lg:pl-6">
-                                        <div class="bg-blue-900/20 border border-blue-500/30 p-3 rounded-lg">
-                                            <div class="tip-label text-blue-400">Dica Prática</div>
-                                            <p class="text-xs text-blue-100 italic">"${info.hint}"</p>
-                                        </div>
-                                    </div>`;
-                                ov.classList.remove('tooltip-hidden'); ov.classList.add('tooltip-visible');
-                            }
-                        }
+                getZoneColor: (pct) => pct<20?'#22c55e':pct<40?'#84cc16':pct<60?'#facc15':pct<80?'#f97316':pct<100?'#ef4444':'#7e22ce'
+            },
+            
+            Alerts: { /* Mantida igual */
+                saveToStorage: () => localStorage.setItem("holder_alerts", JSON.stringify(App.data.alerts)),
+                openModal: (btn = null) => {
+                    const modal = document.getElementById('alertsModal');
+                    const symbolSelect = document.getElementById('alert-symbol');
+                    symbolSelect.innerHTML = '<option value="">Selecione um token</option>';
+                    App.data.tokens.forEach(t => { const o = document.createElement('option'); o.value = t.s; o.textContent = t.n; symbolSelect.appendChild(o); });
+                    if (btn) { const card = btn.closest('.card'); if (card) symbolSelect.value = card.dataset.symbol; }
+                    document.getElementById('alert-price').value = ''; document.getElementById('alert-notes').value = '';
+                    modal.classList.remove('hidden');
+                },
+                closeModal: () => document.getElementById('alertsModal').classList.add('hidden'),
+                openForCard: (btn) => App.Alerts.openModal(btn),
+                createAlert: () => {
+                    const symbol = document.getElementById('alert-symbol').value;
+                    const type = document.getElementById('alert-type').value;
+                    const price = parseFloat(document.getElementById('alert-price').value);
+                    const notes = document.getElementById('alert-notes').value;
+                    if (!symbol || !price) return alert('Preencha os dados!');
+                    const mkt = App.data.market[symbol];
+                    App.data.alerts.push({ id: Date.now(), symbol, type, targetPrice: price, initialPrice: mkt ? mkt.p : 0, notes, triggered: false });
+                    App.Alerts.saveToStorage(); App.Alerts.renderList(); App.Alerts.closeModal();
+                },
+                remove: (id) => { App.data.alerts = App.data.alerts.filter(a => a.id !== id); App.Alerts.saveToStorage(); App.Alerts.renderList(); },
+                check: () => {
+                    let changed = false;
+                    App.data.alerts.forEach(a => {
+                        if(a.triggered) return;
+                        const mkt = App.data.market[a.symbol];
+                        if(!mkt) return;
+                        let hit = (a.type === 'buy' && mkt.p <= a.targetPrice) || (a.type === 'sell' && mkt.p >= a.targetPrice);
+                        if(hit) { a.triggered = true; changed = true; alert(`ALERTA: ${a.symbol} atingiu $${a.targetPrice}`); }
                     });
-                    document.body.addEventListener('mouseout', e => { if(e.target.closest('[data-tip]')) { ov.classList.add('tooltip-hidden'); ov.classList.remove('tooltip-visible'); } });
+                    if(changed) { App.Alerts.saveToStorage(); App.Alerts.renderList(); }
+                },
+                renderList: () => {
+                    const div = document.getElementById('alertsContent');
+                    if(!App.data.alerts.length) { div.innerHTML = '<div class="text-gray-500 text-xs italic p-2 text-center">Nenhum alerta configurado.</div>'; return; }
+                    div.innerHTML = App.data.alerts.map(a => {
+                        const mkt = App.data.market[a.symbol];
+                        const curr = mkt ? mkt.p : a.initialPrice;
+                        const dist = ((a.targetPrice - curr)/curr)*100;
+                        return `<div class="bg-dark-800 border ${a.triggered ? 'border-green-500' : 'border-gray-700'} p-2 rounded relative group"><div class="flex justify-between items-center mb-1"><span class="font-bold text-xs ${a.type==='buy'?'text-green-400':'text-red-400'}">${a.symbol.replace('USDT','')} ${a.type==='buy'?'C':'V'}</span><button onclick="App.Alerts.remove(${a.id})" class="text-gray-600 hover:text-red-500"><i class="fa-solid fa-times"></i></button></div><div class="flex justify-between text-[10px] font-mono"><span class="text-gray-400">Alvo: $${a.targetPrice}</span><span class="${a.triggered ? 'text-green-500 font-bold' : 'text-yellow-500'}">${a.triggered ? 'ATINGIDO' : dist.toFixed(1)+'%'}</span></div></div>`;
+                    }).join('');
                 }
             },
             
